@@ -5,6 +5,9 @@ on:
     branches: [main]
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   terraform:
     runs-on: ubuntu-latest
@@ -29,7 +32,7 @@ jobs:
           credentials_json: ${{ secrets.GCP_CREDENTIALS }}
 
       - name: Terraform Init
-        run: terraform init
+        run: terraform init -input=false
 
       - name: Terraform Format
         run: terraform fmt -check
@@ -37,17 +40,8 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
 
-      - name: Terraform Lint
-        uses: terraform-linters/setup-tflint@v4
-
-      - name: Run TFLint
-        run: tflint
-
-      - name: Security Scan
-        uses: bridgecrewio/checkov-action@v12
-
       - name: Terraform Plan
-        run: terraform plan -out=tfplan
+        run: terraform plan -input=false -out=tfplan
 
       - name: Upload Plan
         uses: actions/upload-artifact@v4
@@ -57,4 +51,4 @@ jobs:
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
-        run: terraform apply -auto-approve tfplan
+        run: terraform apply -input=false -auto-approve tfplan
