@@ -1,0 +1,51 @@
+name: Terraform GCP Deployment
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  terraform:
+    name: 'Terraform Apply'
+    runs-on: ubuntu-latest
+
+    env:
+      GOOGLE_CLOUD_PROJECT: causal-folder-478404-r1
+      GOOGLE_CLOUD_REGION: us-central1
+      GOOGLE_CLOUD_ZONE: us-central1-a
+
+    steps:
+      # Checkout repo
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Setup Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.8.5   # pick a stable version
+
+      # Authenticate with GCP
+      - name: Setup GCP Credentials
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
+      # Initialize Terraform
+      - name: Terraform Init
+        run: terraform init
+
+      # Validate Terraform
+      - name: Terraform Validate
+        run: terraform validate
+
+      # Plan Terraform
+      - name: Terraform Plan
+        run: terraform plan -input=false
+
+      # Apply Terraform (only on push to main)
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main'
+        run: terraform apply -auto-approve -input=false
