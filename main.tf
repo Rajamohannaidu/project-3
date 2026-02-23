@@ -3,7 +3,6 @@ provider "google" {
   project     = "my-ever-first-project-488313"
   region      = "us-central1"
   zone        = "us-central1-a"
-  #manoj
 }
 
 # -------------------------------
