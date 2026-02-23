@@ -1,3 +1,14 @@
+terraform {
+  required_version = ">= 1.8.0"
+
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 5.0"
+    }
+  }
+}
+
 provider "google" {
   project = "my-ever-first-project-488313"
   region  = "us-central1"
