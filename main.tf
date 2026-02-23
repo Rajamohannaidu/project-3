@@ -1,6 +1,6 @@
 provider "google" {
-  #credentials = file("C:/TERRAFORM/key/credentials.json") # Use forward slashes on Windows
-  project     = "my-ever-first-project"
+  credentials = file("C:/TERRAFORM/key/credentials.json") # Use forward slashes on Windows
+  project     = "my-ever-first-project-488313"
   region      = "us-central1"
   zone        = "us-central1-a"
   #manoj
