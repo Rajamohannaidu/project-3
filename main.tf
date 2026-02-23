@@ -1,6 +1,6 @@
 provider "google" {
   credentials = file("C:/TERRAFORM/key/credentials.json") # Use forward slashes on Windows
-  project     = "causal-folder-478404-r1"
+  project     = "my-ever-first-project"
   region      = "us-central1"
   zone        = "us-central1-a"
 #manoj
